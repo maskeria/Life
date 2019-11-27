@@ -15,7 +15,7 @@ public class Cell {
   }
 
   void show() {
-    stroke(255);
+    noStroke();
     square(x, y, 20);
     if (alive) {
       fill(0,255,0);

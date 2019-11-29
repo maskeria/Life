@@ -3,8 +3,6 @@ public class Cell {
   int j;
   int x;
   int y;
-  int neighbors;
-  boolean alive;
   int state;
   int previousState;
 
@@ -13,9 +11,8 @@ public class Cell {
     this.j = j;
     this.x = i*w;
     this.y = j*w;
-    this.alive = false;
     this.state = 0;
-    this.previousState = state;
+    this.previousState = 0;
   }
 
   void show() {

@@ -2,10 +2,11 @@ int w = 15;
 int cols; 
 int rows;
 Cell[][] board;
-
+int[][] copy;
+boolean paused = false;
 
 void setup() {
-  frameRate(15);
+  //frameRate(15);
   size(1000, 1000);
   background(100);
   cols = width / w;
@@ -18,6 +19,33 @@ void setup() {
   }
 
   randomize(board);
+}
+
+void draw() {
+  for (int i =0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      board[i][j].show();
+    }
+  }
+  if (!paused) {
+    evolve(board);
+  }
+}
+
+void keyPressed() {
+  if (key == 'r' || key == 'R') {
+    randomize(board);
+  }
+  if (key == ' ') {
+    paused = !paused;
+  }
+  if(key == 'c' || key == 'C') {
+    for(int i = 0; i < cols; i++) {
+      for(int j = 0; j < rows; j++) {
+        board[i][j].state = 0;
+      }
+    }
+  }
 }
 
 void evolve(Cell[][] board) {
@@ -63,13 +91,4 @@ void randomize(Cell[][] board) {
       board[i][j].state = (int)random(2);
     }
   }
-}
-
-void draw() {
-  for (int i =0; i < rows; i++) {
-    for (int j = 0; j < cols; j++) {
-      board[i][j].show();
-    }
-  }
-  evolve(board);
 }

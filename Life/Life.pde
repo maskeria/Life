@@ -7,7 +7,7 @@ Cell[][] board;
 void setup() {
   frameRate(15);
   size(1000, 1000);
-  background(255);
+  background(100);
   cols = width / w;
   rows = height / w;
   board = new Cell[rows][cols];
@@ -21,10 +21,10 @@ void setup() {
 }
 
 void evolve(Cell[][] board) {
-  boolean[][] next = new boolean[rows][cols];
-  for (int p = 1; p < rows - 1; p++) {
-    for (int q = 1; q < cols - 1; q++) {
-      next[p][q] = board[p][q].alive;
+  int[][] next = new int[rows][cols];
+  for (int p = 0; p < rows; p++) {
+    for (int q = 0; q < cols; q++) {
+      next[p][q] = board[p][q].state;
     }
   }
 
@@ -36,14 +36,23 @@ void evolve(Cell[][] board) {
       for (int a = -1; a <= 1; a++) {     
         for (int b = -1; b <= 1; b++) {
           if (!(a == 0 && b == 0)) {
-            if (next[(i+a+cols)%cols][(j+b+rows)%rows]) {
-              neighbors++;
-            }
+            int col = (i+a+cols)%cols;
+            int row = (j+b+rows)%rows;
+            neighbors += next[col][row];
           }
         }
       }
-      
-      board[i][j].alive = conwaysLife(next[i][j], neighbors);
+      board[i][j].previousState = board[i][j].state;
+
+      if (next[i][j] == 1) {
+        if (neighbors < 2 || (neighbors > 3)) {
+          board[i][j].state = 0;
+        }
+      } else {
+        if (neighbors == 3) {
+          board[i][j].state = 1;
+        }
+      }
     }
   }
 }
@@ -51,7 +60,7 @@ void evolve(Cell[][] board) {
 void randomize(Cell[][] board) {
   for (int i = 0; i < cols; i++) {
     for (int j = 0; j < rows; j++) {
-      board[i][j].alive = (int)random(2) == 1 ? true : false;
+      board[i][j].state = (int)random(2);
     }
   }
 }

@@ -1,3 +1,4 @@
+/*
 boolean conwaysLife(boolean alive, int neighbors) {
   if (alive) {
     if (neighbors < 2 || (neighbors > 3)) {
@@ -23,3 +24,5 @@ boolean mandala(boolean alive, int neighbors) {
   }
   return alive;
 }
+
+*/

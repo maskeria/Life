@@ -16,7 +16,7 @@ public class Cell {
   }
 
   void show() {
-    noStroke();
+    stroke(100);
     square(x, y, 20);
     if (state == 1) {
       if (state == previousState) {

@@ -3,7 +3,7 @@ mouse clicks to paint while paused
  make glider objects
  use mouse clicks to shoot gliders in any direction
  */
-int w = 20;
+int w = 10;
 int cols; 
 int rows;
 Cell[][] board;
@@ -12,7 +12,7 @@ boolean paused = false;
 
 void setup() {
   //frameRate(15);
-  size(1500, 1500);
+  size(500, 500);
   background(100);
   cols = width / w;
   rows = height / w;
@@ -35,7 +35,7 @@ void draw() {
   if (!paused) {
     evolve(board);
   }
-  if (paused && mousePressed) {
+  if (mousePressed) {
     for (int i = 0; i < cols; i++) {
       for (int j = 0; j < rows; j++) {
         Cell current = board[i][j];
@@ -66,6 +66,19 @@ void keyPressed() {
       }
     }
   }
+  if(key == 'g' || key == 'G') {
+    int col = (int)map(mouseX, 0, width, 0, cols);
+    int row = (int)map(mouseY, 0, height, 0, rows);
+    shootGlider(row, col);
+  }
+}
+
+void shootGlider(int col, int row) {
+  board[(row-1+rows)%rows][(col+cols)%cols].state = 1;
+  board[(row+rows)%rows][(col+1+cols)%cols].state = 1;
+  board[(row+1+rows)%rows][(col+1+cols)%cols].state = 1;
+  board[(row+1+rows)%rows][(col+cols)%cols].state = 1;
+  board[(row+1+rows)%rows][(col-1+cols)%cols].state = 1;
 }
 
 void evolve(Cell[][] board) {
@@ -92,7 +105,7 @@ void evolve(Cell[][] board) {
       board[i][j].previousState = board[i][j].state;
 
       if (copy[i][j] == 1) {
-        if (neighbors < 2 || (neighbors > 3)) {
+        if (neighbors < 2 || (neighbors > 3 && neighbors < 5)) {
           board[i][j].state = 0;
         }
       } else {

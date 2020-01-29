@@ -1,7 +1,6 @@
 /*
-mouse clicks to paint while paused
- make glider objects
- use mouse clicks to shoot gliders in any direction
+  make colors depend on number of neighbors
+  use mouse clicks to shoot gliders in any direction
  */
 int w = 10;
 int cols; 
@@ -66,7 +65,7 @@ void keyPressed() {
       }
     }
   }
-  if(key == 'g' || key == 'G') {
+  if (key == 'g' || key == 'G') {
     int col = (int)map(mouseX, 0, width, 0, cols);
     int row = (int)map(mouseY, 0, height, 0, rows);
     shootGlider(row, col);
@@ -105,7 +104,7 @@ void evolve(Cell[][] board) {
       board[i][j].previousState = board[i][j].state;
 
       if (copy[i][j] == 1) {
-        if (neighbors < 2 || (neighbors > 3 && neighbors < 5)) {
+        if (neighbors < 2 || (neighbors > 3)) {
           board[i][j].state = 0;
         }
       } else {
